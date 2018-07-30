@@ -98,7 +98,33 @@ class BST {
 
   // 查找指定值
   find (data) {
+    let currNode = this.root
+    while (currNode) {
+      if (currNode.data === data) {
+        return currNode
+      }
+      if (data < currNode.data) {
+        currNode = currNode.left
+      }else {
+        currNode = currNode.right
+      }
+    }
+    return null
+  }
 
+  remove (data) {
+    let currNode = this.root
+    while (currNode) {
+      if(currNode.data === data) {
+        if(!currNode.left && !currNode.right) {
+          currNode = null
+          return
+        }
+        if(!currNode.left) {
+          currNode
+        }
+      }
+    }
   }
 }
 
