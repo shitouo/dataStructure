@@ -76,13 +76,7 @@ class BST {
 
   // 查找最小值
   getMin () {
-    let currNode = this.root
-    while (currNode) {
-      if (currNode.left) {
-        currNode = currNode.left
-      }
-    }
-    return currNode.data
+    this.getMinFromSubtree(this.root)
   }
 
   // 查找最大值
@@ -112,29 +106,49 @@ class BST {
     return null
   }
 
-  remove (data) {
-    let currNode = this.root
-    while (currNode) {
-      if(currNode.data === data) {
-        if(!currNode.left && !currNode.right) {
-          currNode = null
-          return
-        }
-        if(!currNode.left) {
-          currNode
-        }
+  getMinFromSubtree (node) {
+    if(!node) {
+      return null
+    }
+    let currNode = node
+    while(currNode) {
+      if(currNode.left) {
+        currNode = currNode.left
       }
+    }
+    return currNode
+  }
+
+  remove (data) {
+    this.root = this.removeNode(this.root, data)
+  }
+  
+  removeNode (node, data) {
+    if(!node) {
+      return null
+    }
+    if(node.data === data) {
+      if(!node.left && !node.right) {
+        return null
+      }
+      if(!node.right) {
+        return node.left
+      }
+      if(!node.left) {
+        return node.right
+      }
+      let minNodeFromRightSubTree = this.getMinFromSubtree(node.right)
+      node.data = minNodeFromRightSubTree.data
+      minNodeFromRightSubTree = null
+      return node
+    }
+    if(node.data > data) {
+      node.left = this.removeNode(node.left, data)
+      return node
+    }
+    if(node.data < data) {
+      node.right = this.removeNode(node.right, data)
+      return node
     }
   }
 }
-
-// 测试
-var nums = new BST();
-nums.insert(23);
-nums.insert(45);
-nums.insert(16);
-nums.insert(37);
-nums.insert(3);
-nums.insert(99);
-nums.insert(22);
-inOrder(nums.root);
